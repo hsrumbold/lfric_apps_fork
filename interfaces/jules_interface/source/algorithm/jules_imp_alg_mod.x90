@@ -146,7 +146,6 @@ contains
     type( field_type ), pointer :: resfs_tile          => null()
     type( field_type ), pointer :: canhc_tile          => null()
     type( field_type ), pointer :: ustar               => null()
-    type( field_type ), pointer :: non_irrig_frac      => null()
     type( field_type ), pointer :: tile_water_extract  => null()
     type( integer_field_type ), pointer :: ocn_cpl_point => null()
 

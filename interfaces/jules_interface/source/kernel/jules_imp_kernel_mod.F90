@@ -38,7 +38,7 @@ module jules_imp_kernel_mod
   !>
   type, public, extends(kernel_type) :: jules_imp_kernel_type
     private
-    type(arg_type) :: meta_args(85) = (/                                          &
+    type(arg_type) :: meta_args(86) = (/                                          &
          arg_type(GH_SCALAR, GH_INTEGER, GH_READ),                                &! outer
          arg_type(GH_SCALAR, GH_INTEGER, GH_READ),                                &! loop
          arg_type(GH_FIELD,  GH_REAL,    GH_READ,      W3),                       &! wetrho_in_w3

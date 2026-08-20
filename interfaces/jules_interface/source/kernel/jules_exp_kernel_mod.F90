@@ -46,7 +46,7 @@ module jules_exp_kernel_mod
   !>
   type, public, extends(kernel_type) :: jules_exp_kernel_type
     private
-    type(arg_type) :: meta_args(108) = (/                                      &
+    type(arg_type) :: meta_args(109) = (/                                      &
          arg_type(GH_FIELD, GH_REAL,  GH_READ,      WTHETA),                   &! theta_in_wth
          arg_type(GH_FIELD, GH_REAL,  GH_READ,      WTHETA),                   &! exner_in_wth
          arg_type(GH_FIELD, GH_REAL,  GH_READ,      W3, STENCIL(REGION)),      &! u_in_w3
