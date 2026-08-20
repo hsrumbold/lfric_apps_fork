@@ -94,6 +94,7 @@ module jules_imp_kernel_mod
          arg_type(GH_FIELD,  GH_REAL,    GH_READ,      ANY_DISCONTINUOUS_SPACE_1),&! ustar
          arg_type(GH_FIELD,  GH_REAL,    GH_READ,      ANY_DISCONTINUOUS_SPACE_1),&! lake_evap
          arg_type(GH_FIELD,  GH_REAL,    GH_READ,      ANY_DISCONTINUOUS_SPACE_1),&! soil_moist_avail
+         arg_type(GH_FIELD,  GH_REAL,    GH_READ,      ANY_DISCONTINUOUS_SPACE_1),&! non_irrig_frac
          arg_type(GH_FIELD,  GH_INTEGER, GH_READ,      ANY_DISCONTINUOUS_SPACE_7),&! bl_type_ind
          arg_type(GH_FIELD,  GH_REAL,    GH_READ,      WTheta),                   &! qw_wth
          arg_type(GH_FIELD,  GH_REAL,    GH_READ,      WTheta),                   &! tl_wth
@@ -197,6 +198,7 @@ contains
   !> @param[in]     ustar                Friction velocity
   !> @param[in,out] lake_evap            Lake evaporation (grid box mean)
   !> @param[in]     soil_moist_avail     Available soil moisture for evaporation
+  !> @param[in]     non_irrig_frac       Non-irrigated fraction of the land point
   !> @param[in]     bl_type_ind          Diagnosed BL types
   !> @param[in,out] surf_ht_flux         Surface to sub-surface heat flux
   !> @param[in,out] t1p5m_surft          Diagnostic: 1.5m temperature for land tiles
@@ -302,6 +304,7 @@ contains
                             ustar,                              &
                             lake_evap,                          &
                             soil_moist_avail,                   &
+                            non_irrig_frac,                     &
                             bl_type_ind,                        &
                             qw_wth, tl_wth,                     &
                             dqw1_2d, dtl1_2d,                   &
@@ -458,7 +461,8 @@ contains
                                                            m_cf, qw_wth, tl_wth
 
     real(kind=r_def), dimension(undf_2d), intent(in) :: ustar,                &
-                                                        soil_moist_avail
+                                                        soil_moist_avail,     &
+                                                        non_irrig_frac
 
     real(kind=r_def), intent(in)    :: tile_fraction(undf_tile)
     real(kind=r_def), intent(inout) :: tile_temperature(undf_tile)
@@ -1119,6 +1123,9 @@ contains
 
       do l = 1, land_field
         progs%smc_soilt(l,1) = soil_moist_avail(map_2d(1,ainfo%land_index(l)))
+        ! Calculated by the explicit surface exchange
+        ainfo%non_irrig_frac(l) =                                            &
+             real(non_irrig_frac(map_2d(1,ainfo%land_index(l))), r_um)
       end do
 
       !-----------------------------------------------------------------------

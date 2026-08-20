@@ -335,7 +335,7 @@ sw_down_surf, lw_down_surf, sw_down_blue_surf, sw_direct_blue_surf, dd_mf_cb, oz
 &surf_interp, rhokh_bl, moist_flux_bl, heat_flux_bl, gradrinr, &
 &alpha1_tile, ashtf_prime_tile, dtstar_tile, fracaero_t_tile, fracaero_s_tile, z0h_tile, &
 &z0m_tile, rhokh_tile, chr1p5m_tile, resfs_tile, gc_tile, canhc_tile, tile_water_extract, blend_height_tq, z0m_eff, ustar, &
-&soil_moist_avail, snow_unload_rate, albedo_obs_scaling, soil_clay, soil_sand, dust_mrel, dust_flux, day_of_year, second_of_day, &
+&soil_moist_avail, non_irrig_frac, snow_unload_rate, albedo_obs_scaling, soil_clay, soil_sand, dust_mrel, dust_flux, day_of_year, second_of_day, &
 flux_e, flux_h, urbwrr, urbhwr, urbhgt, urbztm, urbdisp, &
 &rhostar, recip_l_mo_sea, &
 &t1_sd_2d, q1_sd_2d, gross_prim_prod, z0h_eff, ocn_cpl_point, stencil_depth)
@@ -355,7 +355,7 @@ skyview, sw_up_tile, tile_lw_grey_albedo,&
 &sw_down_surf, lw_down_surf, sw_down_blue_surf, sw_direct_blue_surf, dd_mf_cb, ozone, cf_bulk, cf_liquid, rhokm_bl, surf_interp, rhokh_bl, &
 &moist_flux_bl, heat_flux_bl, gradrinr, &
 &alpha1_tile, ashtf_prime_tile, dtstar_tile, fracaero_t_tile, fracaero_s_tile, z0h_tile, z0m_tile, rhokh_tile, &
-&chr1p5m_tile, resfs_tile, gc_tile, canhc_tile, tile_water_extract, z0m_eff, ustar, soil_moist_avail, snow_unload_rate, &
+&chr1p5m_tile, resfs_tile, gc_tile, canhc_tile, tile_water_extract, z0m_eff, ustar, soil_moist_avail, non_irrig_frac, snow_unload_rate, &
 &albedo_obs_scaling, soil_clay, soil_sand, dust_mrel, dust_flux, &
 urbwrr, urbhwr, urbhgt, urbztm, urbdisp, &
 rhostar, recip_l_mo_sea, t1_sd_2d, q1_sd_2d, &
@@ -382,7 +382,8 @@ sw_down_surf_proxy, lw_down_surf_proxy, sw_down_blue_surf_proxy, sw_direct_blue_
 &heat_flux_bl_proxy, gradrinr_proxy, alpha1_tile_proxy, ashtf_prime_tile_proxy, dtstar_tile_proxy, &
 &fracaero_t_tile_proxy, fracaero_s_tile_proxy, &
 &z0h_tile_proxy, z0m_tile_proxy, rhokh_tile_proxy, chr1p5m_tile_proxy, resfs_tile_proxy, gc_tile_proxy, canhc_tile_proxy, &
-&tile_water_extract_proxy, z0m_eff_proxy, ustar_proxy, soil_moist_avail_proxy, snow_unload_rate_proxy, albedo_obs_scaling_proxy, &
+&tile_water_extract_proxy, z0m_eff_proxy, ustar_proxy, soil_moist_avail_proxy, non_irrig_frac_proxy, snow_unload_rate_proxy, &
+&albedo_obs_scaling_proxy, &
 &soil_clay_proxy, soil_sand_proxy, dust_mrel_proxy, dust_flux_proxy, &
 urbwrr_proxy, urbhwr_proxy, urbhgt_proxy, urbztm_proxy, urbdisp_proxy, &
 rhostar_proxy, recip_l_mo_sea_proxy, &
@@ -502,6 +503,7 @@ rhostar_proxy, recip_l_mo_sea_proxy, &
       z0m_eff_proxy = z0m_eff%get_proxy()
       ustar_proxy = ustar%get_proxy()
       soil_moist_avail_proxy = soil_moist_avail%get_proxy()
+      non_irrig_frac_proxy = non_irrig_frac%get_proxy()
       snow_unload_rate_proxy = snow_unload_rate%get_proxy()
       albedo_obs_scaling_proxy = albedo_obs_scaling%get_proxy()
       soil_clay_proxy = soil_clay%get_proxy()
@@ -666,7 +668,8 @@ sw_up_tile_proxy%data, tile_lw_grey_albedo_proxy%data, sw_down_surf_proxy%data, 
 &fracaero_t_tile_proxy%data, fracaero_s_tile_proxy%data, &
 &z0h_tile_proxy%data, z0m_tile_proxy%data, rhokh_tile_proxy%data, chr1p5m_tile_proxy%data, resfs_tile_proxy%data, &
 &gc_tile_proxy%data, canhc_tile_proxy%data, tile_water_extract_proxy%data, blend_height_tq_proxy%data, z0m_eff_proxy%data, &
-&ustar_proxy%data, soil_moist_avail_proxy%data, snow_unload_rate_proxy%data, albedo_obs_scaling_proxy%data, soil_clay_proxy%data, &
+&ustar_proxy%data, soil_moist_avail_proxy%data, non_irrig_frac_proxy%data, snow_unload_rate_proxy%data, &
+&albedo_obs_scaling_proxy%data, soil_clay_proxy%data, &
 &soil_sand_proxy%data, dust_mrel_proxy%data, dust_flux_proxy%data, day_of_year, second_of_day, &
 flux_e, flux_h, &
 urbwrr_proxy%data, urbhwr_proxy%data, urbhgt_proxy%data, urbztm_proxy%data, &
@@ -718,6 +721,7 @@ z0h_eff_proxy%data, ocn_cpl_point_proxy%data, ndf_wtheta, &
       CALL z0m_eff_proxy%set_dirty()
       CALL ustar_proxy%set_dirty()
       CALL soil_moist_avail_proxy%set_dirty()
+      CALL non_irrig_frac_proxy%set_dirty()
       CALL snow_unload_rate_proxy%set_dirty()
       CALL dust_flux_proxy%set_dirty()
       CALL rhostar_proxy%set_dirty()

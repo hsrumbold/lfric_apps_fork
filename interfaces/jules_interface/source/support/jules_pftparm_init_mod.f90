@@ -19,9 +19,11 @@ contains
   !> @param[in] config   The config of the model run
   subroutine jules_pftparm_init(config)
 
+    use c_irrigation_mod,         only: irrig_tile
     use c_z0h_z0m,                only: z0h_z0m
     use config_mod,               only: config_type
     use constants_mod,            only: r_um, i_def
+    use jules_irrig_mod,          only: irrig_option, tile_based_irrigation
     use jules_pftparm_config_mod, only:                                        &
        c3_io_no, c3_io_yes,fsmc_mod_io_weight, fsmc_mod_io_average,            &
        orient_io_spherical, orient_io_horizontal
@@ -43,7 +45,7 @@ contains
     use jules_pftparm_nml_iterator_mod, only: jules_pftparm_nml_iterator_type
     use jules_pftparm_nml_mod,    only: jules_pftparm_nml_type
     use jules_surface_types_mod,  only: npft, brd_leaf, ndl_leaf, c3_grass,    &
-       c4_grass, shrub
+       c4_grass, shrub, c3_irrig, c4_irrig
 
     use log_mod, only: log_event, log_scratch_space, log_level_error
 
@@ -74,6 +76,10 @@ contains
         i = c3_grass
       case ( 'c4_grass' )
         i = c4_grass
+      case ( 'c3_irrig' )
+        i = c3_irrig
+      case ( 'c4_irrig' )
+        i = c4_irrig
       case ( 'shrub' )
         i = shrub
       case DEFAULT
@@ -225,6 +231,22 @@ contains
       vsl(i) = real(jules_pftparm%vsl_io(), r_um)
       z0v(i) = real(jules_pftparm%z0v_io(), r_um)
       z0h_z0m(i) = real(jules_pftparm%z0hm_pft_io(), r_um)
+
+      ! Flag which PFTs are irrigated. Only the dedicated irrigated PFTs may
+      ! be marked as such; this replaces the JULES routine check_irrigation,
+      ! which is not built in LFRic.
+      if ( irrig_option == tile_based_irrigation ) then
+        irrig_tile(i) = jules_pftparm%irrig_pft_io()
+        if ( irrig_tile(i) > 0 .and. i /= c3_irrig .and. i /= c4_irrig ) then
+          write(log_scratch_space,'(A)')                                       &
+             'irrig_pft_io may only be set for the irrigated PFTs '//          &
+             '(c3_irrig, c4_irrig) but it is set for '//                       &
+             trim(jules_pftparm%pft_name_io())
+          call log_event(                                                      &
+             RoutineName//': '//trim(log_scratch_space), log_level_error       &
+             )
+        end if
+      end if
     end do
 
     if ( n /= npft ) then

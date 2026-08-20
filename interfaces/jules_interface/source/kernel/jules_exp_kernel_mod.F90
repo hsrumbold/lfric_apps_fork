@@ -133,6 +133,7 @@ module jules_exp_kernel_mod
          arg_type(GH_FIELD, GH_REAL,  GH_WRITE,     ANY_DISCONTINUOUS_SPACE_1),&! z0m_eff
          arg_type(GH_FIELD, GH_REAL,  GH_WRITE,     ANY_DISCONTINUOUS_SPACE_1),&! ustar
          arg_type(GH_FIELD, GH_REAL,  GH_WRITE,     ANY_DISCONTINUOUS_SPACE_1),&! soil_moist_avail
+         arg_type(GH_FIELD, GH_REAL,  GH_WRITE,     ANY_DISCONTINUOUS_SPACE_1),&! non_irrig_frac
          arg_type(GH_FIELD, GH_REAL,  GH_WRITE,     ANY_DISCONTINUOUS_SPACE_3),&! snow_unload_rate
          arg_type(GH_FIELD, GH_REAL,  GH_READ,      ANY_DISCONTINUOUS_SPACE_9),&! albedo_obs_scaling
          arg_type(GH_FIELD, GH_REAL,  GH_READ,      ANY_DISCONTINUOUS_SPACE_1),&! soil_clay_2d
@@ -255,6 +256,7 @@ contains
   !> @param[in,out] z0m_eff                Grid mean effective roughness length
   !> @param[in,out] ustar                  Friction velocity
   !> @param[in,out] soil_moist_avail       Available soil moisture for evaporation
+  !> @param[in,out] non_irrig_frac         Non-irrigated fraction of the land point
   !> @param[in,out] snow_unload_rate       Unloading of snow from PFTs by wind
   !> @param[in]     albedo_obs_scaling     Scaling factor to adjust albedos by
   !> @param[in]     soil_clay_2d           Soil clay fraction
@@ -405,6 +407,7 @@ contains
                            z0m_eff,                               &
                            ustar,                                 &
                            soil_moist_avail,                      &
+                           non_irrig_frac,                        &
                            snow_unload_rate,                      &
                            albedo_obs_scaling,                    &
                            soil_clay_2d,                          &
@@ -600,6 +603,7 @@ contains
                                                            z0m_eff,            &
                                                            ustar,              &
                                                            soil_moist_avail,   &
+                                                           non_irrig_frac,     &
                                                            recip_l_mo_sea_2d,  &
                                                            rhostar_2d,         &
                                                            t1_sd_2d, q1_sd_2d
@@ -1772,6 +1776,9 @@ contains
 
     do l = 1, land_field
       soil_moist_avail(map_2d(1,ainfo%land_index(l))) = progs%smc_soilt(l,1)
+      ! Retained for use by the implicit surface exchange
+      non_irrig_frac(map_2d(1,ainfo%land_index(l))) =                         &
+           real(ainfo%non_irrig_frac(l), r_def)
     end do
 
     do n = 1, npft

@@ -59,6 +59,8 @@ contains
                               ndl_leaf_in => ndl_leaf,                         &
                               c3_grass_in => c3_grass,                         &
                               c4_grass_in => c4_grass,                         &
+                              c3_irrig_in => c3_irrig,                         &
+                              c4_irrig_in => c4_irrig,                         &
                               shrub_in => shrub,                               &
                               urban_in => urban,                               &
                               urban_canyon_in => urban_canyon,                 &
@@ -76,7 +78,7 @@ contains
     use jules_surface_types_mod, only: npft, nnvg, ntype, brd_leaf, ndl_leaf,  &
                                        c3_grass, c4_grass, shrub, urban,       &
                                        urban_canyon, urban_roof, lake,         &
-                                       soil, ice
+                                       soil, ice, c3_irrig, c4_irrig
     use jules_vegetation_mod, only: l_triffid
     use jules_model_environment_mod, only: lsm_id, jules,                      &
         check_jules_model_environment
@@ -112,6 +114,8 @@ contains
       ndl_leaf     = ndl_leaf_in
       c3_grass     = c3_grass_in
       c4_grass     = c4_grass_in
+      c3_irrig     = c3_irrig_in
+      c4_irrig     = c4_irrig_in
       shrub        = shrub_in
       urban        = urban_in
       urban_canyon = urban_canyon_in

@@ -969,6 +969,9 @@ contains
         twod=.true., is_int=.true.))
     call processor%apply(make_spec('z0m_eff', main%surface, W3, twod=.true.))
     call processor%apply(make_spec('net_prim_prod', main%surface, W3, twod=.true.))
+    ! Fraction of the land point that is not irrigated. Calculated in the
+    ! explicit surface exchange and used in the implicit surface exchange.
+    call processor%apply(make_spec('non_irrig_frac', main%surface, W3, twod=.true.))
     call processor%apply(make_spec('taux_ssi', main%surface, W3, twod=.true.))
     call processor%apply(make_spec('tauy_ssi', main%surface, W3, twod=.true.))
     call processor%apply(make_spec('z0m', main%surface, W3, twod=.true.))

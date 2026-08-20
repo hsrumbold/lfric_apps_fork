@@ -109,7 +109,8 @@ contains
     use jules_hydrology_mod, only: check_jules_hydrology,                   &
          print_nlist_jules_hydrology, l_hydrology, l_top, l_var_rainfrac,   &
          nfita, ti_max, ti_wetl, zw_max, l_inland
-    use jules_irrig_mod, only: l_irrig_dmd
+    use jules_irrig_mod, only: l_irrig_dmd, irrig_option,                   &
+         check_jules_irrig, print_nlist_jules_irrig
     use jules_radiation_mod, only: i_sea_alb_method,                        &
                                    l_embedded_snow, l_mask_snow_orog,       &
          l_spec_alb_bs, l_spec_albedo, l_spec_sea_alb, fixed_sea_albedo,    &
@@ -571,6 +572,17 @@ contains
     ! This is set to false because it causes issues with the production
     ! compile setting on the intel compiler
     l_fix_neg_snow     = .false.
+
+    ! ----------------------------------------------------------------
+    ! JULES irrigation settings - contained in module jules_irrig
+    ! ----------------------------------------------------------------
+    ! Demand based irrigation (l_irrig_dmd) is not supported in LFRic, so
+    ! only the tile based irrigation option is configurable here.
+    l_irrig_dmd  = .false.
+    irrig_option = config%jules_irrig%irrig_option()
+
+    call print_nlist_jules_irrig()
+    call check_jules_irrig()
 
     ! The following routine initialises 3D arrays which are used direct
     ! from modules throughout the JULES code base.

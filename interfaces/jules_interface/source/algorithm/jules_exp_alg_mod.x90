@@ -166,6 +166,7 @@ contains
     type( field_type ), pointer :: ustar
     type( field_type ), pointer :: tile_water_extract
     type( field_type ), pointer :: net_prim_prod
+    type( field_type ), pointer :: non_irrig_frac
     type( field_type ), pointer :: surf_interp_w2
     type( field_type ), pointer :: surf_interp
     type( field_type ), pointer :: tau_land_w2
@@ -317,6 +318,7 @@ contains
     call surface_fields%get_field('ustar', ustar)
     call surface_fields%get_field('tile_water_extract', tile_water_extract)
     call surface_fields%get_field('net_prim_prod', net_prim_prod)
+    call surface_fields%get_field('non_irrig_frac', non_irrig_frac)
     call surface_fields%get_field('surf_interp_w2', surf_interp_w2)
     call surface_fields%get_field('surf_interp', surf_interp)
     call surface_fields%get_field('tau_land_w2', tau_land_w2)
@@ -439,7 +441,8 @@ contains
                                z0h_tile, z0m_tile, rhokh_tile,                 &
                                chr1p5m_tile, resfs_tile, gc_tile, canhc_tile,  &
                                tile_water_extract, blend_height_tq, z0m_eff,   &
-                               ustar, soil_moist_avail, snow_unload_rate,      &
+                               ustar, soil_moist_avail, non_irrig_frac,        &
+                               snow_unload_rate,                               &
                                albedo_obs_scaling, soil_clay, soil_sand,       &
                                dust_mrel, dust_flux,                           &
                                day_of_year, second_of_day,                     &

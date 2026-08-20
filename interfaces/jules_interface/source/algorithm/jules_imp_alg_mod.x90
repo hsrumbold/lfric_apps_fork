@@ -146,6 +146,7 @@ contains
     type( field_type ), pointer :: resfs_tile          => null()
     type( field_type ), pointer :: canhc_tile          => null()
     type( field_type ), pointer :: ustar               => null()
+    type( field_type ), pointer :: non_irrig_frac      => null()
     type( field_type ), pointer :: tile_water_extract  => null()
     type( integer_field_type ), pointer :: ocn_cpl_point => null()
 
@@ -224,6 +225,7 @@ contains
     call surface_fields%get_field('resfs_tile', resfs_tile)
     call surface_fields%get_field('canhc_tile', canhc_tile)
     call surface_fields%get_field('ustar', ustar)
+    call surface_fields%get_field('non_irrig_frac', non_irrig_frac)
     call surface_fields%get_field('tile_water_extract', tile_water_extract)
     call surface_fields%get_field('ocn_cpl_point', ocn_cpl_point)
 
@@ -296,7 +298,8 @@ contains
                                        resfs_tile, canhc_tile,               &
                                        tile_water_extract,  ustar,           &
                                        lake_evap,                            &
-                                       soil_moist_avail, bl_type_ind, qw, tl,&
+                                       soil_moist_avail, non_irrig_frac,     &
+                                       bl_type_ind, qw, tl,                  &
                                        dqw1, dtl1, ct_ctq1, surf_ht_flux,    &
                                        t1p5m_surft, q1p5m_surft, t1p5m,      &
                                        q1p5m, qcl1p5m, rh1p5m, t1p5m_ssi,    &
